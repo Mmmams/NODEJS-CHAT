@@ -1,25 +1,28 @@
-import "./App.css";
-
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { useState } from "react";
+import { BrowserRouter, Switch, Route } from "react-router-dom";
 
 import { UserContext } from "./UserContext";
+
+import "./App.css";
+
 import Chat from "./components/chat/chat";
 import Home from "./components/home/home";
-import { useState } from "react";
+import Navbar from "./layout/Navbar";
 
 function App() {
   const [user, setUser] = useState(null);
   return (
-    <Router>
+    <BrowserRouter>
       <div className="App">
         <UserContext.Provider value={{ user, setUser }}>
+          <Navbar />
           <Switch>
             <Route exact path="/" component={Home} />
-            <Route path="chat" component={Chat} />
+            <Route path="/chat/:room_id/:room_name" component={Chat} />
           </Switch>
         </UserContext.Provider>
       </div>
-    </Router>
+    </BrowserRouter>
   );
 }
 
