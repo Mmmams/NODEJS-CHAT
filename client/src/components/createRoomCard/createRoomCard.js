@@ -8,14 +8,16 @@ import {
   InputLabel,
   Input,
 } from "@material-ui/core";
-
 import io from "socket.io-client";
+
 let socket;
+
 const useStyles = makeStyles({
   root: {
     minWidth: 275,
     flexGrow: 3,
     margin: 20,
+    backgroundColor: "whitesmoke",
   },
   bullet: {
     display: "inline-block",
@@ -48,9 +50,9 @@ export default function CreateRoomCard() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    socket.emit("create-room", room);
-    console.log(room);
-    setRoom(" ");
+    socket.emit("create-room", room, () => {
+      setRoom("");
+    });
   };
 
   const handleInput = (event) => {

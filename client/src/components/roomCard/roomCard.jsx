@@ -1,12 +1,13 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useRouteMatch, useHistory } from "react-router-dom";
-
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
+import io from "socket.io-client";
+let socket;
 
 const useStyles = makeStyles({
   root: {
@@ -28,20 +29,40 @@ const useStyles = makeStyles({
 });
 
 export default function RoomCard() {
+  const ENDPOINT = "localhost:5500";
+
   const match = useRouteMatch();
   const history = useHistory();
   const classes = useStyles();
-  const rooms = [
-    { name: "room1", _id: 123 },
-    { name: "room2", _id: "qwe" },
-  ];
+  const [rooms, setRooms] = useState([]);
+
+  useEffect(() => {
+    socket = io(ENDPOINT);
+    return () => {
+      socket.emit("disconnect");
+      socket.off();
+    };
+  });
+
+  useEffect(() => {
+    socket.on("output-rooms", (rooms) => {
+      setRooms(rooms);
+    });
+  }, []);
+
+  useEffect(() => {
+    socket.on("room-created", (room) => {
+      setRooms([...rooms, room]);
+    });
+  }, [rooms]);
+
   return (
     <div>
       {rooms.map((room) => (
         <Card className={classes.root} variant="outlined" key={room._id}>
           <CardContent>
             <Typography variant="h5" component="h2">
-              {room.name}
+              {room.roomName}
             </Typography>
             <Typography className={classes.pos} color="textSecondary">
               {room._id}
@@ -50,9 +71,9 @@ export default function RoomCard() {
           <CardActions>
             <Button
               size="small"
-              onClick={() =>
-                history.push(`${match.path}chat/${room._id}/${room.name}`)
-              }
+              onClick={() => {
+                history.push(`${match.path}chat/${room._id}/${room.roomName}`);
+              }}
             >
               Connect room
             </Button>
