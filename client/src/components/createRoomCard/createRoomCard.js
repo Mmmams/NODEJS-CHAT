@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import Button from "@material-ui/core/Button";
@@ -9,14 +9,15 @@ import {
   Input,
 } from "@material-ui/core";
 import io from "socket.io-client";
-
+import { UserContext } from "../../UserContext.js";
 let socket;
 
 const useStyles = makeStyles({
   root: {
     minWidth: 275,
+    height: "33vh",
     flexGrow: 3,
-    margin: 20,
+    margin: "20",
     backgroundColor: "whitesmoke",
   },
   bullet: {
@@ -33,9 +34,17 @@ const useStyles = makeStyles({
   btn: {
     margin: 10,
   },
+  helloTitle: {
+    margin: "20px",
+    fontWeight: "bold",
+  },
+  form: {
+    margin: "20px",
+  },
 });
 
 export default function CreateRoomCard() {
+  const { user, setUser } = useContext(UserContext);
   const ENDPOINT = "localhost:5500";
   useEffect(() => {
     socket = io(ENDPOINT);
@@ -61,7 +70,8 @@ export default function CreateRoomCard() {
 
   return (
     <Card className={classes.root}>
-      <FormControl>
+      <div className={classes.helloTitle}>WELCOME {user}</div>
+      <FormControl className={classes.form}>
         <form onSubmit={handleSubmit}>
           <InputLabel htmlFor="my-input">Room name</InputLabel>
           <Input

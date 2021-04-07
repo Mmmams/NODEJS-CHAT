@@ -1,5 +1,5 @@
 import React from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, useRouteMatch } from "react-router-dom";
 
 import SvgIcon from "@material-ui/core/SvgIcon";
 import AppBar from "@material-ui/core/AppBar";
@@ -16,6 +16,7 @@ function HomeIcon(props) {
 
 const Navbar = () => {
   const history = useHistory();
+  const match = useRouteMatch();
   return (
     <AppBar position="static">
       <Toolbar>
@@ -24,8 +25,22 @@ const Navbar = () => {
             history.push("/");
           }}
         />
-        <Button color="inherit">Login</Button>
-        <Button color="inherit">Signup</Button>
+        <Button
+          color="inherit"
+          onClick={() => {
+            history.push(`${match.path}login`);
+          }}
+        >
+          Login
+        </Button>
+        <Button
+          color="inherit"
+          onClick={() => {
+            history.push(`${match.path}signup`);
+          }}
+        >
+          Signup
+        </Button>
         <Button color="inherit">Logout</Button>
       </Toolbar>
     </AppBar>

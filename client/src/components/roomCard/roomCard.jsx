@@ -10,9 +10,12 @@ import io from "socket.io-client";
 let socket;
 
 const useStyles = makeStyles({
+  container: {
+    flexGrow: 2,
+  },
   root: {
     minWidth: 275,
-    flexGrow: 2,
+    flexGrow: 1,
     margin: 20,
   },
   bullet: {
@@ -57,7 +60,7 @@ export default function RoomCard() {
   }, [rooms]);
 
   return (
-    <div>
+    <div className={classes.container}>
       {rooms.map((room) => (
         <Card className={classes.root} variant="outlined" key={room._id}>
           <CardContent>

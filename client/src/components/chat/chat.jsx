@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
     flexDirection: "column",
-    margin: "0 auto",
+    margin: "20px auto",
     width: "70vw",
   },
   btn: {
@@ -48,6 +48,7 @@ const Chat = () => {
     socket.on("message", (message) => {
       setMessages([...messages, message]);
     });
+    console.log("message", message);
   }, [messages]);
 
   useEffect(() => {
