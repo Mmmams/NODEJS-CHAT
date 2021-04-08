@@ -1,11 +1,10 @@
 import React from "react";
 
 import { makeStyles } from "@material-ui/core/styles";
-
+import ScrollToBottom from "react-scroll-to-bottom";
 const useStyles = makeStyles((theme) => ({
   root: {
     ...theme.typography.button,
-    backgroundColor: theme.palette.background.paper,
     padding: theme.spacing(1),
     display: "flex",
     margin: "10px",
@@ -13,32 +12,39 @@ const useStyles = makeStyles((theme) => ({
   container: {
     width: "70vw",
 
+    height: "69vh",
     margin: "10px auto",
     padding: "10px",
   },
   own: {
-    backgroundColor: "#C3A1E9",
     padding: "5px",
     marginLeft: "auto",
+  },
+  notOwn: {
+    padding: "5px",
+    marginRight: "auto",
   },
 }));
 
 const Messages = ({ messages, user_id }) => {
   const classes = useStyles();
+
   return (
-    <div className={classes.container}>
+    <ScrollToBottom className={classes.container}>
       {messages.map((msg) => (
         <div className={classes.root} key={msg._id}>
-          {msg.user_id === user_id ? (
-            <div className={classes.own}>{msg.text}</div>
+          {msg.user_id !== user_id ? (
+            <div className={classes.notOwn}>
+              {msg.userName}:{msg.text}
+            </div>
           ) : (
-            <div>
+            <div className={classes.own}>
               {msg.userName}: {msg.text}
             </div>
           )}
         </div>
       ))}
-    </div>
+    </ScrollToBottom>
   );
 };
 

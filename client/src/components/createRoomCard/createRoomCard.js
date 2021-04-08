@@ -44,7 +44,7 @@ const useStyles = makeStyles({
 });
 
 export default function CreateRoomCard() {
-  const { user, setUser } = useContext(UserContext);
+  const { user } = useContext(UserContext);
   const ENDPOINT = "localhost:5500";
   useEffect(() => {
     socket = io(ENDPOINT);
@@ -70,7 +70,7 @@ export default function CreateRoomCard() {
 
   return (
     <Card className={classes.root}>
-      <div className={classes.helloTitle}>WELCOME {user}</div>
+      <div className={classes.helloTitle}>Welcome {user ? user.name : "!"}</div>
       <FormControl className={classes.form}>
         <form onSubmit={handleSubmit}>
           <InputLabel htmlFor="my-input">Room name</InputLabel>

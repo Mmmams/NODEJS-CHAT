@@ -12,7 +12,6 @@ import Container from "@material-ui/core/Container";
 import FormHelperText from "@material-ui/core/FormHelperText";
 import { UserContext } from "../../UserContext.js";
 import { Redirect } from "react-router-dom";
-import { useRouteMatch, useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -34,8 +33,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Signup() {
+function Signup() {
   const { user, setUser } = useContext(UserContext);
+
   const classes = useStyles();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -66,13 +66,10 @@ export default function Signup() {
     } catch (error) {
       console.log(error);
     }
-    console.log(user);
-    if (user) {
-      console.log(234);
-      return <Redirect to="/" />;
-    }
   };
-
+  if (user) {
+    return <Redirect to="/login" />;
+  }
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -149,7 +146,7 @@ export default function Signup() {
           </Button>
           <Grid container justify="center">
             <Grid item>
-              <Link href="#" variant="body2">
+              <Link href="/login" variant="body2">
                 Already have an account? Sign in
               </Link>
             </Grid>
@@ -159,3 +156,5 @@ export default function Signup() {
     </Container>
   );
 }
+
+export default Signup;

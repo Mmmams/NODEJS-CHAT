@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-
+import React, { useEffect, useState, useContext } from "react";
+import { UserContext } from "../../UserContext.js";
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
@@ -27,6 +27,8 @@ const Chat = () => {
   const classes = useStyles();
   const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState("");
+  const { user } = useContext(UserContext);
+
   const sendMessage = (event) => {
     event.preventDefault();
     if (message) {
@@ -41,14 +43,17 @@ const Chat = () => {
 
   useEffect(() => {
     socket = io(ENDPOINT);
-    socket.emit("join", { userName: "mams", room_id, user_id: "123" });
+    if (user) {
+      socket.emit("join", { userName: user.name, room_id, user_id: user._id });
+    }
   }, []);
 
   useEffect(() => {
+    console.log("message", messages);
     socket.on("message", (message) => {
+      console.log("here");
       setMessages([...messages, message]);
     });
-    console.log("message", message);
   }, [messages]);
 
   useEffect(() => {
@@ -61,7 +66,7 @@ const Chat = () => {
   return (
     <div>
       <h1>{room_name}</h1>
-      <Messages messages={messages} user_id="123" />
+      <Messages messages={messages} user_id={user ? user._id : null} />
       <form
         className={classes.root}
         noValidate

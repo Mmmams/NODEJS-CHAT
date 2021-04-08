@@ -1,5 +1,5 @@
 import { BrowserRouter, Switch, Route } from "react-router-dom";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./App.css";
 import { UserContext } from "./UserContext";
 import Chat from "./components/chat/chat.jsx";
@@ -10,6 +10,23 @@ import Signup from "./components/auth/signup";
 
 function App() {
   const [user, setUser] = useState(null);
+  useEffect(() => {
+    const verifyUser = async () => {
+      try {
+        const res = await fetch("http://localhost:5500/verifyuser", {
+          credentials: "include",
+          headers: { "Content-Type": "application/json" },
+        });
+        const data = await res.json();
+        console.log(data);
+        setUser(data);
+      } catch (error) {
+        console.log("error", error);
+      }
+    };
+    verifyUser();
+  }, []);
+
   return (
     <BrowserRouter>
       <div className="App">
