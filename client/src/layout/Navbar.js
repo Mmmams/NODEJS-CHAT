@@ -15,6 +15,7 @@ const Navbar = () => {
       const data = res.json();
       console.log("logout data", data);
       setUser(null);
+      console.log(user);
       history.push("/");
     } catch (error) {
       console.log(error);

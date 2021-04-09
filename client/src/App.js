@@ -1,4 +1,4 @@
-import { BrowserRouter, Switch, Route } from "react-router-dom";
+import { BrowserRouter, Switch, Route, useParams } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import "./App.css";
 import { UserContext } from "./UserContext";
@@ -10,6 +10,7 @@ import Signup from "./components/auth/signup";
 
 function App() {
   const [user, setUser] = useState(null);
+
   useEffect(() => {
     const verifyUser = async () => {
       try {
@@ -18,7 +19,7 @@ function App() {
           headers: { "Content-Type": "application/json" },
         });
         const data = await res.json();
-        console.log(data);
+        console.log("verify data", data);
         setUser(data);
       } catch (error) {
         console.log("error", error);

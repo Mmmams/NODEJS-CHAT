@@ -37,7 +37,7 @@ function Signup() {
   const { user, setUser } = useContext(UserContext);
 
   const classes = useStyles();
-  const [name, setName] = useState("");
+  const [userName, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [nameError, setNameError] = useState("");
@@ -50,7 +50,7 @@ function Signup() {
       const res = await fetch("http://localhost:5500/signup", {
         method: "POST",
         credentials: "include",
-        body: JSON.stringify({ name, email, password }),
+        body: JSON.stringify({ userName, email, password }),
         headers: { "Content-Type": "application/json" },
       });
       const data = await res.json();
@@ -92,7 +92,7 @@ function Signup() {
                 id="firstName"
                 label="Name"
                 autoFocus
-                value={name}
+                value={userName}
                 onChange={(event) => {
                   setName(event.target.value);
                 }}

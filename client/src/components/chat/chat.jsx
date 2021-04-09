@@ -28,11 +28,9 @@ const Chat = () => {
   const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState("");
   const { user } = useContext(UserContext);
-
   const sendMessage = (event) => {
     event.preventDefault();
     if (message) {
-      console.log(message);
       socket.emit("sendMessage", message, room_id, () => {
         setMessage("");
       });
@@ -44,14 +42,17 @@ const Chat = () => {
   useEffect(() => {
     socket = io(ENDPOINT);
     if (user) {
-      socket.emit("join", { userName: user.name, room_id, user_id: user._id });
+      socket.emit("join", {
+        userName: user.userName,
+        room_id,
+        user_id: user._id,
+      });
+      console.log("emited", user);
     }
-  }, []);
+  }, [user]);
 
   useEffect(() => {
-    console.log("message", messages);
     socket.on("message", (message) => {
-      console.log("here");
       setMessages([...messages, message]);
     });
   }, [messages]);
